@@ -12,29 +12,42 @@ def shunt(infix):
     # Special Character precendence on the stack
     specialChars = {'*':50, '+':40, '?':35, '.':30, '|':25}
 
+    # Stores characters and operators in order of precendence 
     stack = ''
+    # Stores characters and operators into a postfix notation
     postfix = ''
 
     # For loop that loops throughout the length of the input
     for i in infix:
+        # Brackets are not used in postfix and they need to be exterminated
         if i == '(':
+            # Adds '(' to the stack
             stack = stack + i
         elif i == ')':
+            # Reviews the stack to see if last char is '('
             while stack[-1] != '(':
+                # Adds last char to postfix
                 postfix, stack = postfix + stack[-1], stack[:-1]
+            # Exterminates '(' from the stack
             stack = stack[:-1]
+        # Handles the special characters listed in the script
         elif i in specialChars:
-            while stack and specialChars.get(i,0) <= specialChars.get(stack[-1], 0):
+            # Compares char to char in specialChars and checks the precedence 
+            while stack and specialChars.get(i, 0) <= specialChars.get(stack[-1], 0):
+                # Adds read chars to the stack
                 postfix, stack = postfix + stack[-1], stack[:-1]
             stack = stack + i
+        # Adds character to postfix notation, this handles all characters such as a-z, A-Z
         else:
             postfix = postfix + i
 
     while stack:
+        # Adds last char to the stack
         postfix, stack = postfix + stack[-1], stack[:-1]
-
+    # Returns full postfix
     return postfix
 
-#Testing
-print(shunt('A+B*C'))
-print(shunt('A*(B+C)'))
+# Testing Shunting Algorithm
+# print(shunt('A+B*C'))
+# print(shunt('A*(B+C)'))
+# print(shunt('A|B.C'))
