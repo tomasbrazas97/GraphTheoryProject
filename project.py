@@ -47,6 +47,11 @@ def shunt(infix):
     # Returns full postfix
     return postfix
 
+# Testing Shunting Algorithm
+print(shunt('A+B*C'))
+# print(shunt('A*(B+C)'))
+# print(shunt('A|B.C'))
+
 # Thompson's Construction
 
 # NFA's to be executed
@@ -66,7 +71,87 @@ class state:
     edge1 = None
     edge2 = None
 
-# Testing Shunting Algorithm
-# print(shunt('A+B*C'))
-# print(shunt('A*(B+C)'))
-# print(shunt('A|B.C'))
+def compile(postfix):
+    """Compiles a postfix regular notation into a NFA"""
+    nfastack = []
+ 
+    for c in postfix:
+        if c == '.':
+            # Pop 2 NFAs off the stack
+            NFA2 = nfastack.pop()
+            NFA1 = nfastack.pop()
+            # Connect first NFAs last state to the seconds initial state
+            NFA1.last.edge1 = NFA2.initial
+            # Push the new NFA to the stack
+            nfastack.append(NFA(NFA1.initial, NFA2.last))
+        # Or
+        elif c == '|':
+            # Pop 2 NFAs off the stack
+            NFA2 = nfastack.pop()
+            NFA1 = nfastack.pop()
+            # Create a new initial state, connect it to initial states of
+            # the two NFAs popped from the stack
+            initial = state()
+            initial.edge1 = NFA1.initial
+            initial.edge2 = NFA2.initial
+            # Create a new last state, connecting the last states of
+            # the two NFAs popped from the stack to the new last state
+            last = state()
+            NFA1.last.edge1 = last
+            NFA2.last.edge1 = last
+            # Push the new NFA to the stack
+            nfastack.append(NFA(initial, last))
+        # 0 or more
+        elif c == '*':
+            # Pop a single NFA from the stack
+            NFA1 = nfastack.pop()
+            # Create new initial and last states
+            initial = state()
+            last = state()
+            # Merge the new initial state to NFA1s initial state and to the new last state
+            initial.edge1 = NFA1.initial
+            initial.edge2 = last
+            # Merge the old last state to the new last state and to NFA1s initial state
+            NFA1.last.edge1 = NFA1.initial
+            NFA1.last.edge2 = last
+            # Push the new NFA to the stack
+            nfastack.append(NFA(initial, last))
+        # 1 or more
+        elif c == '+':
+            # Pop a single NFA from the stack
+            NFA1 = nfastack.pop()
+            # Create new initial and last states
+            initial = state()
+            last = state()
+            # Merge the new initial state to NFA1s initial state
+            initial.edge1 = NFA1.initial
+            # Merge the old last state to the new last state and to NFA1s initial state
+            NFA1.last.edge1 = NFA1.initial
+            NFA1.last.edge2 = last
+            # Push the new NFA to the stack
+            nfastack.append(NFA(initial, last))
+        # 0 or 1
+        elif c == '?':
+            # Pop a single NFA from the stack
+            NFA1 = nfastack.pop()
+            # Create new initial and last states
+            initial = state()
+            last = state()
+            # Merge the new initial state to NFA1s initial state and to the new last state
+            initial.edge1 = NFA1.initial
+            initial.edge2 = last
+            # Merge the old last state to the new last state
+            NFA1.last.edge2 = last
+            # Push the new NFA to the stack
+            nfastack.append(NFA(initial, last))
+        else:
+            # Create new initial and accept states
+            last = state()
+            initial = state()
+            # Merge the initial state and the last state labelled c
+            initial.label = c
+            initial.edge1 = last
+            # Push the new NFA to the stack
+            nfastack.append(NFA(initial, last))
+    return nfastack.pop()
+
