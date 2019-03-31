@@ -27,7 +27,7 @@ def shunt(infix):
             # Adds '(' to the stack
             stack = stack + i
         elif i == ')':
-            # Reviews the stack to see if last char is '('
+            # Reviews the stack to see if last char is ')'
             while stack[-1] != '(':
                 # Adds last char to postfix
                 postfix, stack = postfix + stack[-1], stack[:-1]
