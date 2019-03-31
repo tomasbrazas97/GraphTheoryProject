@@ -83,6 +83,11 @@ passed to compile function to produce finite automata. Current states and next s
 are present, another for loop is used. This for loop loops through each state in current state set. If labels match any current states and current character of the string, followEdges function adds state to next state set.
 
 -------------------------------------------------
+# User Input
+-------------------------------------------------
+User Input is present in this project. While script is running in terminal the user can keep inputting. User is asked for the infix regular expression  and a string to match the infix regular expression.
+The match is function is called with the comparability printed to the user.
+-------------------------------------------------
 References
 -------------------------------------------------
 1) Learnonline lecture notes
