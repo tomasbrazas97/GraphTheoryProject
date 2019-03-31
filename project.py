@@ -161,18 +161,41 @@ def followEdge(state):
     # Create a new set, with state as its only member
     states = set()
     states.add(state)
- 
+    
     # Checks if states label is a special char
     if state.label is None:
         # Check if edge1 is directed to a state
         if state.edge1 is not None:
-            # if there's an edge1 follow it
+            # If there's an edge1 follow it
             states |= followEdge(state.edge1)
         # Check if edge2 is directed to a state
         if state.edge2 is not None:
-            # if there's an edge2 follow it
+            # If there's an edge2 follow it
             states |= followEdge(state.edge2)
     # Return states
     return states
- 
+
+def match(infix, string):
+    """Matches output string to infix regular expression"""
+    # Shunt and compile the regular expression
+    postfix = shunt(infix)
+    NFA = compile(postfix)
+    # Current set of states and next set of states
+    currentstate = set()
+    nextstate = set()
+    # Add the initial state to the current set
+    currentstate |= followEdge(NFA.initial)
+    # Loop through the characters in the string
+    for s in string:
+        # Loop through the current set of states
+        for c in currentstate:
+            # Check if that state is labelled s
+            if c.label == s:
+                # Add the edge1 state to the next set
+                nextstate |= followEdge(c.edge1)
+        # Set currentstate to nextstate, and clear out nextstate
+        currentstate = nextstate
+        nextstate = set()
+    # Check if the last state is in the set of current sets
+    return (NFA.last in currentstate)
 
