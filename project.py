@@ -6,7 +6,7 @@
 # 3)"Use the smaller NFA's to create the overall NFA."
 # 4)"Implement the matching algorithm using the NFA."
 
-# Task 1) Shunting Yard Algorithm
+# Shunting Yard Algorithm
 def shunt(infix):
     """Converts infix regular expressions to postfix notations"""
     # Special Character precendence on the stack
@@ -46,6 +46,25 @@ def shunt(infix):
         postfix, stack = postfix + stack[-1], stack[:-1]
     # Returns full postfix
     return postfix
+
+# Thompson's Construction
+
+# NFA's to be executed
+class NFA: 
+    initial = None
+    last = None
+
+    # NFA constructor
+    def _init_(self, initial, last):
+        self.initial = initial
+        self.last = last
+
+# State in a NFA 
+# Can't have more than 2 edges and label represents char inputed
+class state:
+    label = None
+    edge1 = None
+    edge2 = None
 
 # Testing Shunting Algorithm
 # print(shunt('A+B*C'))
