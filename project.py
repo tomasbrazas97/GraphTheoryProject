@@ -6,6 +6,9 @@
 # 3)"Use the smaller NFA's to create the overall NFA."
 # 4)"Implement the matching algorithm using the NFA."
 
+# User input
+import sys
+
 # Shunting Yard Algorithm
 def shunt(infix):
     """Converts infix regular expressions to postfix notations"""
@@ -260,3 +263,8 @@ def match(infix, string):
 #for exp, res in testList: 
 #    print(match(exp, res), exp, res)
 
+# User input repeats until terminal is exited
+while True:
+    infix = (input("Infix regular expression: "))
+    string = (input("String to match infix regular expression: "))
+    print(match(infix,string), infix, string)
