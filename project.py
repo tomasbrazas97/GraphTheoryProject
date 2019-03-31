@@ -145,7 +145,7 @@ def compile(postfix):
             # Push the new NFA to the stack
             nfastack.append(NFA(initial, last))
         else:
-            # Create new initial and accept states
+            # Create new initial and last states
             last = state()
             initial = state()
             # Merge the initial state and the last state labelled c
@@ -154,4 +154,25 @@ def compile(postfix):
             # Push the new NFA to the stack
             nfastack.append(NFA(initial, last))
     return nfastack.pop()
+
+# Checks the edges of the states and returns the set of states that are connected to state
+def followEdge(state):
+    """Return the set of states that can be reached from state following edge arrows"""
+    # Create a new set, with state as its only member
+    states = set()
+    states.add(state)
+ 
+    # Checks if states label is a special char
+    if state.label is None:
+        # Check if edge1 is directed to a state
+        if state.edge1 is not None:
+            # if there's an edge1 follow it
+            states |= followEdge(state.edge1)
+        # Check if edge2 is directed to a state
+        if state.edge2 is not None:
+            # if there's an edge2 follow it
+            states |= followEdge(state.edge2)
+    # Return states
+    return states
+ 
 
