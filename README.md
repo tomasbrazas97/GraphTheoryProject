@@ -87,13 +87,32 @@ are present, another for loop is used. This for loop loops through each state in
 -------------------------------------------------
 User Input is present in this project. While script is running in terminal the user can keep inputting. User is asked for the infix regular expression  and a string to match the infix regular expression.
 The match is function is called with the comparability printed to the user.
+
+-------------------------------------------------
+# Run the script
+-------------------------------------------------
+Python is necessary to have on your device to run the script succesfully. To check if you have python installed, open command prompt from start menu and 
+type "python --version". If python is installed on the device, current python version on the device should be printed out on the command prompt. If an error occurs
+python is not present on the device.
+1) Clone the github repository.
+2) Open command prompt (CMD).
+3) Navigate to your saved directory using 'cd' and '..' commands in the CMD.
+4) At the destination folder, enter "python project.py" to run the script.
+
+ The script should be working on the CMD.
+ 
+------------------------------------------------
+# Testing
+------------------------------------------------
+There is code present in the script. To open the script, navigate to destination folder on CMD and type "code ." to open the script in Visual Studio Code.
+The testing code can be found after the algorithms. Simply remove the hashtag symbol '#' from each line, save (ctrl + s) and run the script (as explained above paragraph).
+
 -------------------------------------------------
 References
 -------------------------------------------------
-1) Learnonline lecture notes
-2) Web.microsoft streams
-3) Stackoverflow
-
+1) Learnonline lecture notes from module Graph Theory
+2) Web.microsoft streams from Dr. Ian Mcloughlin
+3) Stackoverflow.com
 
 
 

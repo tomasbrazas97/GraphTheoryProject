@@ -13,7 +13,7 @@ import sys
 def shunt(infix):
     """Converts infix regular expressions to postfix notations"""
     # Special Character precendence on the stack
-    specialChars = {'*':50, '+':40, '?':35, '.':30, '|':25}
+    specialChars = {'*':50, '|':45, '+':40, '?':35, '.':30}
 
     # Stores characters and operators in order of precendence 
     stack = ''
@@ -207,17 +207,38 @@ def match(infix, string):
     # Check if the last state is in the set of current sets
     return (NFA.last in currentstate)
 
+# User input repeats until terminal is exited
+while True:
+    # User inputs infix regular expression
+    infix = (input("Infix regular expression: "))
+    # User Inputs a string will try to match
+    string = (input("String to match infix regular expression: "))
+    # match function called and the two are compared
+    print(match(infix,string), infix, string)
+
 # --TESTING--
+# Thompson's construction
+
 # '*' char test
 #testList = [
 #    ('a*', ''),
 #    ('a*', 'a'),
-#    ('a*', 'aaaa')
+#    ('a*', 'aaaaaaaaaaaa')
 #]
-# Test data in the '*' list
-#print('Test "*" operator')
-#for exp, res in testList: 
-#    print(match(exp, res), exp, res)
+#print('"*"')
+#for e, r in testList: 
+#    print(match(e, r), e, r)
+
+# '|' char test
+# testList = [
+#     ('a|b', 'a'),
+#     ('a|b', 'aa'),
+#     ('a|b', 'b'),
+#     ('a|b', 'bb')
+# ]
+# print('"|"')
+# for e, r in testList: 
+#     print(match(e, r), e, r)
 
 # '+' char test
 #testList = [
@@ -225,46 +246,27 @@ def match(infix, string):
 #    ('a+a', 'a'),
 #    ('a+a', 'aaaa')
 #]
-# Test data in the '+' list
-#print('Test "+" operator')
-#for exp, res in testList: 
-#    print(match(exp, res), exp, res)
+#print('"+"')
+#for e, r in testList: 
+#    print(match(e, r), e, r)
 
 # '?' char test
 # testList = [
-#    ('c?', ''),
-#    ('c?', 'c'),
-#    ('c?', 'ccc')
+#    ('a?', ''),
+#    ('a?', 'a'),
+#    ('a?', 'aa'),
+#    ('a?', 'aaa')
 #]
-# Test data in the '?' list
-# print('Test "?" operator')
-# for exp, res in testList: 
-#     print(match(exp, res), exp, res)
-
-# '|' char test
-# testList = [
-#     ('a|b', 'a'),
-#     ('a|b', 'aa'),
-#     ('a|b', 'b')
-# ]
-# Test data in the '|' list
-# print('Test "|" operator')
-# for exp, res in testList: 
-#     print(match(exp, res), exp, res)
+# print('"?"')
+# for e, r in testList: 
+#     print(match(e, r), e, r)
 
 # '.' char test
 # testList = [
 #   ('a.b', 'a'),
 #    ('a.b', 'ab'),
-#    ('a.b', 'aa')
+#    ('a.b', 'aab')
 #]
-# Test data in the '.' list
-#print('Test "." operator')
-#for exp, res in testList: 
-#    print(match(exp, res), exp, res)
-
-# User input repeats until terminal is exited
-while True:
-    infix = (input("Infix regular expression: "))
-    string = (input("String to match infix regular expression: "))
-    print(match(infix,string), infix, string)
+#print('"."')
+#for e, r in testList: 
+#    print(match(e, r), e, r)
