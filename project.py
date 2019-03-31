@@ -34,3 +34,7 @@ def shunt(infix):
         postfix, stack = postfix + stack[-1], stack[:-1]
 
     return postfix
+
+#Testing
+print(shunt('A+B*C'))
+print(shunt('A*(B+C)'))
