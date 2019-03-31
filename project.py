@@ -47,8 +47,8 @@ def shunt(infix):
     # Returns full postfix
     return postfix
 
-# Testing Shunting Algorithm
-print(shunt('A+B*C'))
+# --Testing Shunting Algorithm--
+# print(shunt('A+B*C'))
 # print(shunt('A*(B+C)'))
 # print(shunt('A|B.C'))
 
@@ -60,7 +60,7 @@ class NFA:
     last = None
 
     # NFA constructor
-    def _init_(self, initial, last):
+    def __init__(self, initial, last):
         self.initial = initial
         self.last = last
 
@@ -84,6 +84,7 @@ def compile(postfix):
             NFA1.last.edge1 = NFA2.initial
             # Push the new NFA to the stack
             nfastack.append(NFA(NFA1.initial, NFA2.last))
+        
         # Or
         elif c == '|':
             # Pop 2 NFAs off the stack
@@ -101,6 +102,7 @@ def compile(postfix):
             NFA2.last.edge1 = last
             # Push the new NFA to the stack
             nfastack.append(NFA(initial, last))
+        
         # 0 or more
         elif c == '*':
             # Pop a single NFA from the stack
@@ -116,6 +118,7 @@ def compile(postfix):
             NFA1.last.edge2 = last
             # Push the new NFA to the stack
             nfastack.append(NFA(initial, last))
+        
         # 1 or more
         elif c == '+':
             # Pop a single NFA from the stack
@@ -130,6 +133,7 @@ def compile(postfix):
             NFA1.last.edge2 = last
             # Push the new NFA to the stack
             nfastack.append(NFA(initial, last))
+        
         # 0 or 1
         elif c == '?':
             # Pop a single NFA from the stack
@@ -144,6 +148,7 @@ def compile(postfix):
             NFA1.last.edge2 = last
             # Push the new NFA to the stack
             nfastack.append(NFA(initial, last))
+        
         else:
             # Create new initial and last states
             last = state()
@@ -161,7 +166,7 @@ def followEdge(state):
     # Create a new set, with state as its only member
     states = set()
     states.add(state)
-    
+
     # Checks if states label is a special char
     if state.label is None:
         # Check if edge1 is directed to a state
@@ -189,7 +194,7 @@ def match(infix, string):
     for s in string:
         # Loop through the current set of states
         for c in currentstate:
-            # Check if that state is labelled s
+            # Check if that state has label s
             if c.label == s:
                 # Add the edge1 state to the next set
                 nextstate |= followEdge(c.edge1)
@@ -198,4 +203,60 @@ def match(infix, string):
         nextstate = set()
     # Check if the last state is in the set of current sets
     return (NFA.last in currentstate)
+
+# --TESTING--
+# '*' char test
+#testList = [
+#    ('a*', ''),
+#    ('a*', 'a'),
+#    ('a*', 'aaaa')
+#]
+# Test data in the '*' list
+#print('Test "*" operator')
+#for exp, res in testList: 
+#    print(match(exp, res), exp, res)
+
+# '+' char test
+#testList = [
+#    ('a+a', ''),
+#    ('a+a', 'a'),
+#    ('a+a', 'aaaa')
+#]
+# Test data in the '+' list
+#print('Test "+" operator')
+#for exp, res in testList: 
+#    print(match(exp, res), exp, res)
+
+# '?' char test
+# testList = [
+#    ('c?', ''),
+#    ('c?', 'c'),
+#    ('c?', 'ccc')
+#]
+# Test data in the '?' list
+# print('Test "?" operator')
+# for exp, res in testList: 
+#     print(match(exp, res), exp, res)
+
+# '|' char test
+# testList = [
+#     ('a|b', 'a'),
+#     ('a|b', 'aa'),
+#     ('a|b', 'b')
+# ]
+# Test data in the '|' list
+# print('Test "|" operator')
+# for exp, res in testList: 
+#     print(match(exp, res), exp, res)
+
+# '.' char test
+# testList = [
+#   ('a.b', 'a'),
+#    ('a.b', 'ab'),
+#    ('a.b', 'aa')
+#]
+# Test data in the '.' list
+#print('Test "." operator')
+#for exp, res in testList: 
+#    print(match(exp, res), exp, res)
 
